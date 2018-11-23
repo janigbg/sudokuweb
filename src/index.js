@@ -1,8 +1,60 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import styled from 'styled-components'
 
 const wasm = import("../build/sudokuweb");
 
+const StyledTable = styled.table`
+border-collapse: collapse;
+font-family: Calibri, sans-serif;
+`;
+
+const StyledTbody = styled.tbody`
+
+`;
+
+const StyledTr = styled.tr`
+&:first-child {
+    border-top: solid medium;
+}
+
+&:nth-of-type(3n) {
+    border-bottom: solid medium;
+}
+`;
+
+const StyledTd = styled.td`
+border: solid thin;
+height: 1.4em;
+width: 1.4em;
+text-align: center;
+padding: 0;
+
+&:first-child {
+    border-left: solid medium;
+}
+
+&:nth-of-type(3n) {
+    border-right: solid medium;
+}
+`;
+
+const StyledInput = styled.input`
+color: #000000;
+padding: 0;
+border: 0;
+text-align: center;
+width: 48px;
+height: 48px;
+font-size: 24px;
+background-color: #FFFFFF;
+outline: none;
+
+&:disabled {
+    background-color: #EEEEEE;
+}
+`;
+// <input id={(row*9+col).toString()} type="text" value={board[row*9+col] > 0 ? board[row*9+col] : ' '} disabled={board[row*9+col] > 0}></input>
 const Board = ({board}) => {
     if (board == null || board.len == 0) return (<div></div>);
 
@@ -13,19 +65,22 @@ const Board = ({board}) => {
       let children = []
       //Inner loop to create children
       for (let col = 0; col < 9; col++) {
-        children.push(<td key={(row*9+col).toString()}>{board[row*9+col] > 0 ? board[row*9+col] : ' '}</td>)
+        children.push(
+        <StyledTd key={(row*9+col).toString()}>
+            {board[row*9+col] > 0 ? board[row*9+col] : ' '}
+        </StyledTd>)
       }
       //Create the parent and add the children
-      table.push(<tr>{children}</tr>)
+      table.push(<StyledTr>{children}</StyledTr>)
     }
 
     return(
         <div>
-            <table>
-                <tbody>
+            <StyledTable>
+                <StyledTbody>
                     {table}
-                </tbody>
-            </table>
+                </StyledTbody>
+            </StyledTable>
         </div>
     );
 }
