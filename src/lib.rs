@@ -12,6 +12,7 @@ use sudokugen::generator::Generator;
 use sudokugen::generator::random_gen::*;
 use sudokugen::solver::least_options::LeastOptionsSolver;
 use sudokugen::solver::Solver;
+use std::convert::From;
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -34,9 +35,11 @@ pub fn greet() {
 }
 
 #[wasm_bindgen]
-pub fn get_puzzle() -> String {
+pub fn get_puzzle() -> Vec<u8> {
     let solver = LeastOptionsSolver::new();
     let mut gen = RandGenSudoku::new(Box::new(solver));
     let puzzle = gen.generate().unwrap();
-    puzzle.board.to_string()
+    let mut result: Vec<u8> = Vec::with_capacity(81);
+    result.extend(puzzle.board.values.iter());
+    result
 }

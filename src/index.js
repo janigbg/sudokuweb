@@ -4,9 +4,28 @@ import ReactDOM from "react-dom";
 const wasm = import("../build/sudokuweb");
 
 const Board = ({board}) => {
-    return (
+    if (board == null || board.len == 0) return (<div></div>);
+
+    let table = []
+
+    // Outer loop to create parent
+    for (let row = 0; row < 9; row++) {
+      let children = []
+      //Inner loop to create children
+      for (let col = 0; col < 9; col++) {
+        children.push(<td key={(row*9+col).toString()}>{board[row*9+col] > 0 ? board[row*9+col] : ' '}</td>)
+      }
+      //Create the parent and add the children
+      table.push(<tr>{children}</tr>)
+    }
+
+    return(
         <div>
-            {board}
+            <table>
+                <tbody>
+                    {table}
+                </tbody>
+            </table>
         </div>
     );
 }
@@ -15,7 +34,7 @@ class Puzzle extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            board: '',
+            board: [],
             wasm: props.wasm
         }
         this.handleClick = this.handleClick.bind(this);
