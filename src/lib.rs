@@ -12,6 +12,7 @@ use sudokugen::generator::Generator;
 use sudokugen::generator::random_gen::*;
 use sudokugen::solver::least_options::LeastOptionsSolver;
 use sudokugen::solver::Solver;
+use sudokugen::board::SudokuBoard;
 use std::convert::From;
 
 cfg_if! {
@@ -25,16 +26,6 @@ cfg_if! {
 }
 
 #[wasm_bindgen]
-extern {
-    fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn greet() {
-    alert("Hello, sudokuweb!");
-}
-
-#[wasm_bindgen]
 pub fn get_puzzle() -> Vec<u8> {
     let solver = LeastOptionsSolver::new();
     let mut gen = RandGenSudoku::new(Box::new(solver));
@@ -42,4 +33,11 @@ pub fn get_puzzle() -> Vec<u8> {
     let mut result: Vec<u8> = Vec::with_capacity(81);
     result.extend(puzzle.board.values.iter());
     result
+}
+
+#[wasm_bindgen]
+pub fn is_valid(vals: Vec<u8>) -> bool {
+    let mut board = SudokuBoard::with_clues(&[]);
+    vals.iter().enumerate().for_each(|(i, &v)| board.values[i] = v);
+    board.is_valid()
 }

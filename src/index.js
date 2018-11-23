@@ -27,7 +27,6 @@ const StyledTd = styled.td`
 border: solid thin;
 height: 1.4em;
 width: 1.4em;
-text-align: center;
 padding: 0;
 
 &:first-child {
@@ -41,62 +40,108 @@ padding: 0;
 
 const StyledInput = styled.input`
 color: #000000;
-padding: 0;
-border: 0;
-text-align: center;
-width: 48px;
-height: 48px;
-font-size: 24px;
+width: 100%;
 background-color: #FFFFFF;
 outline: none;
+border: 0;
+padding: 0;
+text-align: center;
+margin: 0;
 
 &:disabled {
     background-color: #EEEEEE;
 }
 `;
-// <input id={(row*9+col).toString()} type="text" value={board[row*9+col] > 0 ? board[row*9+col] : ' '} disabled={board[row*9+col] > 0}></input>
-const Board = ({board}) => {
-    if (board == null || board.len == 0) return (<div></div>);
 
-    let table = []
-
-    // Outer loop to create parent
-    for (let row = 0; row < 9; row++) {
-      let children = []
-      //Inner loop to create children
-      for (let col = 0; col < 9; col++) {
-        children.push(
-        <StyledTd key={(row*9+col).toString()}>
-            {board[row*9+col] > 0 ? board[row*9+col] : ' '}
-        </StyledTd>)
-      }
-      //Create the parent and add the children
-      table.push(<StyledTr>{children}</StyledTr>)
-    }
-
-    return(
-        <div>
-            <StyledTable>
-                <StyledTbody>
-                    {table}
-                </StyledTbody>
-            </StyledTable>
-        </div>
+const Cell = ({index, value, isClue, onChange}) => {
+    return (
+        <StyledTd key={"td_"+index}>
+            <StyledInput
+                id={index}
+                type="text"
+                pattern="[0-9]"
+                key={"i_"+index}
+                value={value}
+                disabled={isClue}
+                onChange={(e) =>
+                    onChange(e, index)
+                }
+                maxLength="1" />
+        </StyledTd>
     );
+}
+
+// <input id={(row*9+col).toString()} type="text" value={board[row*9+col] > 0 ? board[row*9+col] : ' '} disabled={board[row*9+col] > 0}></input>
+class Board extends Component {
+    render () {
+        if (this.props.board == null || this.props.board.len == 0) return (<div></div>);
+
+        let table = [];
+
+        // Outer loop to create parent
+        for (let row = 0; row < 9; row++) {
+            let children = [];
+            //Inner loop to create children
+            for (let col = 0; col < 9; col++) {
+                let cell = this.props.board[row*9+col];
+                let isClue = this.props.clues[row*9+col];
+                children.push(
+                    <Cell
+                        index={(row*9+col).toString()}
+                        value={cell > 0 ? cell : ''}
+                        isClue={isClue}
+                        onChange={this.props.handleChange}  />);
+            }
+            //Create the parent and add the children
+            table.push(<StyledTr>{children}</StyledTr>);
+        }
+
+        return(
+            <div>
+                <StyledTable>
+                    <StyledTbody>
+                        {table}
+                    </StyledTbody>
+                </StyledTable>
+            </div>
+        );
+    }
 }
 
 class Puzzle extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            done: false,
             board: [],
-            wasm: props.wasm
+            clues: [],
+            wasm: props.wasm,
         }
         this.handleClick = this.handleClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleClick() {
-        this.setState(state => ({board: state.wasm.get_puzzle()}));
+        const board = this.state.wasm.get_puzzle();
+        const clues = board.map((v, _) => v > 0);
+        this.setState({
+            board,
+            clues,
+        });
+    }
+
+    handleChange(e, cell) {
+        const board = this.state.board;
+        board[cell] = e.target.value || 0;
+        let done = false;
+        if (board.every((v, _) => v > 0)) {
+            done = this.state.wasm.is_valid(board);
+        }
+
+        this.setState({
+            board,
+            done,
+        });
     }
 
     render () {
@@ -104,7 +149,11 @@ class Puzzle extends Component {
             <div>
                 <h1>Sudoku</h1>
                 <button onClick={this.handleClick}>Generate puzzle</button>
-                <Board board={this.state.board} />
+                <Board
+                    board={this.state.board}
+                    clues={this.state.clues}
+                    handleChange={this.handleChange} />
+                <div>Done: {this.state.done.toString()}</div>
             </div>
         );
     }
