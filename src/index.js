@@ -102,10 +102,10 @@ class Puzzle extends Component {
     render () {
         return (
             <div>
-                <h1>Hi there</h1>
+                <h1>Sudoku</h1>
                 <button onClick={this.handleClick}>Generate puzzle</button>
                 <Board board={this.state.board} />
-          </div>
+            </div>
         );
     }
 }
