@@ -7,6 +7,7 @@ const wasm = import("../build/sudokuweb");
 const StyledTable = styled.table`
 border-collapse: collapse;
 font-family: Calibri, sans-serif;
+font-size: 24pt;
 `;
 
 const StyledTbody = styled.tbody`
@@ -47,9 +48,10 @@ border: 0;
 padding: 0;
 text-align: center;
 margin: 0;
+font-size: 24pt;
 
 &:disabled {
-    background-color: #EEEEEE;
+    color: #808080;
 }
 `;
 
@@ -121,12 +123,21 @@ class Puzzle extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    getRandomByte() {
+        return Math.floor(Math.random() * Math.floor(256));
+    }
+
     handleClick() {
-        const board = this.state.wasm.get_puzzle();
+        const seed = [...Array(4)]
+            .map(_ => this.getRandomByte())
+            .reduce((result, c, i) => result + c << (i * 8));
+
+        const board = this.state.wasm.get_puzzle(seed);
         const clues = board.map((v, _) => v > 0);
         this.setState({
             board,
             clues,
+            done: false
         });
     }
 
