@@ -1,9 +1,19 @@
+# js
 .idea/
 .vscode/
 node_modules/
 build
 .DS_Store
 *.tgz
+
+# rust
 /target
 **/*.rs.bk
 Cargo.lock
+
+# wasm
+wasm-pack.log
+
+# dist
+dist/*.js
+dist/*.wasm
