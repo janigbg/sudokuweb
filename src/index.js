@@ -6,8 +6,9 @@ const wasm = import("../build/sudokuweb");
 
 const StyledTable = styled.table`
 border-collapse: collapse;
-font-family: Calibri, sans-serif;
+font-family:'Roboto',sans-serif;
 font-size: 24pt;
+margin: 0 auto;
 `;
 
 const StyledTbody = styled.tbody`
@@ -58,6 +59,57 @@ font-size: 24pt;
 const StyledContainer = styled.div`
 max-width: 500px;
 margin: auto;
+text-align: center;
+position: crelative;
+`;
+
+const StyledBlock = styled.div`
+margin: auto;
+`;
+
+const StyledButton = styled.a`
+display:inline-block;
+padding:0.35em 1.2em;
+border:0.1em solid #000000;
+margin:1em 0.3em 0.3em 1em;
+border-radius:0.12em;
+box-sizing: border-box;
+text-decoration:none;
+font-family:'Roboto',sans-serif;
+font-weight:300;
+color:#000000;
+text-align:center;
+transition: all 0.2s;
+cursor:pointer;
+
+&:hover{
+    color:#FFFFFF;
+    background-color:#000000;
+}
+
+@media all and (max-width:30em){
+    display:block;
+    margin:0.4em auto;
+}
+`;
+
+const StyledHero = styled.div`
+padding: 2em;
+text-align: center;
+background: #98b9c9;
+color: #000000;
+
+@media all and (max-width:30em){
+    padding: 1em;
+}
+`;
+
+const StyledHeader = styled.h1`
+font-size:4em;
+
+@media all and (max-width:30em){
+    font-size:2em;
+}
 `;
 
 const Cell = ({index, value, isClue, onChange}) => {
@@ -104,13 +156,13 @@ class Board extends Component {
         }
 
         return(
-            <div>
+            <StyledBlock>
                 <StyledTable>
                     <StyledTbody>
                         {table}
                     </StyledTbody>
                 </StyledTable>
-            </div>
+            </StyledBlock>
         );
     }
 }
@@ -163,13 +215,17 @@ class Puzzle extends Component {
     render () {
         return (
             <div>
-                <h1>Sudoku</h1>
-                <button onClick={this.handleClick}>Generate puzzle</button>
-                <Board
-                    board={this.state.board}
-                    clues={this.state.clues}
-                    handleChange={this.handleChange} />
-                <div>Done: {this.state.done.toString()}</div>
+                <StyledHero>
+                    <StyledHeader>Sudoku</StyledHeader>
+                </StyledHero>
+                <StyledContainer>               
+                    <StyledButton onClick={this.handleClick}>Generate puzzle</StyledButton>
+                    <Board
+                        board={this.state.board}
+                        clues={this.state.clues}
+                        handleChange={this.handleChange} />
+                    <div>Done: {this.state.done.toString()}</div>
+                </StyledContainer>
             </div>
         );
     }
@@ -178,9 +234,9 @@ class Puzzle extends Component {
 wasm.then(wasm => {
   const App = () => {
     return (
-        <StyledContainer>
+        <div>
             <Puzzle wasm={wasm} />
-        </StyledContainer>
+        </div>
     );
   };
 
