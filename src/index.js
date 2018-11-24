@@ -55,6 +55,11 @@ font-size: 24pt;
 }
 `;
 
+const StyledContainer = styled.div`
+max-width: 500px;
+margin: auto;
+`;
+
 const Cell = ({index, value, isClue, onChange}) => {
     return (
         <StyledTd key={"td_"+index}>
@@ -173,7 +178,9 @@ class Puzzle extends Component {
 wasm.then(wasm => {
   const App = () => {
     return (
-      <Puzzle wasm={wasm} />
+        <StyledContainer>
+            <Puzzle wasm={wasm} />
+        </StyledContainer>
     );
   };
 
