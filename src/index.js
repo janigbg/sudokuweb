@@ -54,6 +54,14 @@ font-size: 24pt;
 &:disabled {
     color: #808080;
 }
+
+-moz-appearance:textfield;
+&::-webkit-outer-spin-button,
+&::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 `;
 
 const StyledContainer = styled.div`
@@ -96,7 +104,8 @@ cursor:pointer;
 const StyledHero = styled.div`
 padding: 2em;
 text-align: center;
-background: #98b9c9;
+background-image: linear-gradient(to bottom right, #98b9c9, #FFFFFF);
+
 color: #000000;
 
 @media all and (max-width:30em){
@@ -117,8 +126,8 @@ const Cell = ({index, value, isClue, onChange}) => {
         <StyledTd key={"td_"+index}>
             <StyledInput
                 id={index}
-                type="text"
-                pattern="[0-9]"
+                type="number"
+                pattern="[0-9]*"
                 key={"i_"+index}
                 value={value}
                 disabled={isClue}
@@ -146,13 +155,14 @@ class Board extends Component {
                 let isClue = this.props.clues[row*9+col];
                 children.push(
                     <Cell
+                        key={"cell_"+(row*9+col)}
                         index={(row*9+col).toString()}
                         value={cell > 0 ? cell : ''}
                         isClue={isClue}
                         onChange={this.props.handleChange}  />);
             }
             //Create the parent and add the children
-            table.push(<StyledTr>{children}</StyledTr>);
+            table.push(<StyledTr key={"row_"+row}>{children}</StyledTr>);
         }
 
         return(

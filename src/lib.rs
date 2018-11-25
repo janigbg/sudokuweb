@@ -23,15 +23,15 @@ cfg_if! {
 }
 
 #[wasm_bindgen]
-pub fn get_puzzle(seed: u32) -> Vec<u8> {
+pub fn get_puzzle(seed: u32) -> Result<Vec<u8>, JsValue> {
     let solver = LeastOptionsSolver::new();
     let mut gen = RandGenSudoku::new(Box::new(solver))
         .seed(seed)
         .difficulty(Difficulty::Evil);
-    let puzzle = gen.generate().unwrap();
+    let puzzle = gen.generate()?;
     let mut result: Vec<u8> = Vec::with_capacity(81);
     result.extend(puzzle.board.values.iter());
-    result
+    Ok(result)
 }
 
 #[wasm_bindgen]
