@@ -7,7 +7,7 @@ mod utils;
 use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
 
-use sudokugen::generator::Generator;
+use sudokugen::generator::{Difficulty, Generator};
 use sudokugen::generator::random_gen::*;
 use sudokugen::solver::least_options::LeastOptionsSolver;
 use sudokugen::board::SudokuBoard;
@@ -25,7 +25,9 @@ cfg_if! {
 #[wasm_bindgen]
 pub fn get_puzzle(seed: u32) -> Vec<u8> {
     let solver = LeastOptionsSolver::new();
-    let mut gen = RandGenSudoku::new(Box::new(solver)).seed(seed);
+    let mut gen = RandGenSudoku::new(Box::new(solver))
+        .seed(seed)
+        .difficulty(Difficulty::Evil);
     let puzzle = gen.generate().unwrap();
     let mut result: Vec<u8> = Vec::with_capacity(81);
     result.extend(puzzle.board.values.iter());
