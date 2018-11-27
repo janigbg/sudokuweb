@@ -231,7 +231,7 @@ class Puzzle extends Component {
                         board={this.state.board}
                         clues={this.state.clues}
                         handleChange={this.handleChange} />
-                    <div>Done: {this.state.done.toString()}</div>
+                     {this.state.done ? <div><p>{String.fromCodePoint(0x270C)}</p> You did it!!! Great work solving the puzzle!</div> : null }
                 </StyledContainer>
             </div>
         );
