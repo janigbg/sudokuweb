@@ -1,3 +1,4 @@
+import React from "react";
 import {StyledInput, StyledTd} from "./Styled";
 
 export const Cell = ({index, value, isClue, onChange}) => {

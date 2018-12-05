@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
-const StyledTable = styled.table`
+export const StyledTable = styled.table`
 border-collapse: collapse;
 font-family:'Roboto',sans-serif;
 font-size: 24pt;
 margin: 0 auto;
 `;
 
-const StyledTbody = styled.tbody`
+export const StyledTbody = styled.tbody`
 
 `;
 
-const StyledTr = styled.tr`
+export const StyledTr = styled.tr`
 &:first-child {
     border-top: solid medium;
 }
@@ -21,7 +21,7 @@ const StyledTr = styled.tr`
 }
 `;
 
-const StyledTd = styled.td`
+export const StyledTd = styled.td`
 border: solid thin;
 height: 1.4em;
 width: 1.4em;
@@ -36,7 +36,7 @@ padding: 0;
 }
 `;
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
 color: #000000;
 width: 100%;
 background-color: #FFFFFF;
@@ -60,22 +60,22 @@ font-size: 24pt;
 
 `;
 
-const StyledContainer = styled.div`
+export const StyledContainer = styled.div`
 max-width: 500px;
 margin: auto;
 text-align: center;
-position: crelative;
+position: relative;
 `;
 
-const StyledBlock = styled.div`
+export const StyledBlock = styled.div`
 margin: auto;
 `;
 
-const StyledButton = styled.a`
+export const StyledButton = styled.a`
 display:inline-block;
 padding:0.35em 1.2em;
 border:0.1em solid #000000;
-margin:1em 0.3em 0.3em 1em;
+margin:1em 0.3em 1em 0.3em;
 border-radius:0.12em;
 box-sizing: border-box;
 text-decoration:none;
@@ -97,10 +97,14 @@ cursor:pointer;
 }
 `;
 
-const StyledHero = styled.div`
+//, linear-gradient(to bottom right, #98b9c9, #FFFFFF)
+// linear-gradient(to bottom right, #D9A170, #FFFFFF);
+export const StyledHero = styled.div`
 padding: 2em;
 text-align: center;
-background-image: linear-gradient(to bottom right, #98b9c9, #FFFFFF);
+background-image: url(sudoku.gif);
+background-size: cover;
+background-repeat: no-repeat;
 
 color: #000000;
 
@@ -109,9 +113,8 @@ color: #000000;
 }
 `;
 
-const StyledHeader = styled.h1`
+export const StyledHeader = styled.h1`
 font-size:4em;
-
 @media all and (max-width:30em){
     font-size:2em;
 }

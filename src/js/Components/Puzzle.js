@@ -1,5 +1,8 @@
+import React, {Component} from "react";
 import {StyledButton, StyledContainer, StyledHeader, StyledHero} from "./Styled";
-import Board from "./Board";
+import { Board } from "./Board";
+
+const diffs = ["easy", "medium", "hard", "evil"];
 
 export class Puzzle extends Component {
     constructor(props) {
@@ -9,6 +12,7 @@ export class Puzzle extends Component {
             board: [],
             clues: [],
             wasm: props.wasm,
+            difficulty: props.diff || 0,
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -23,7 +27,7 @@ export class Puzzle extends Component {
             .map(_ => this.getRandomByte())
             .reduce((result, c, i) => result + c << (i * 8));
 
-        const board = this.state.wasm.get_puzzle(seed);
+        const board = this.state.wasm.get_puzzle(seed, this.state.difficulty);
         const clues = board.map((v, _) => v > 0);
         this.setState({
             board,
@@ -53,7 +57,7 @@ export class Puzzle extends Component {
                     <StyledHeader>Sudoku</StyledHeader>
                 </StyledHero>
                 <StyledContainer>               
-                    <StyledButton onClick={this.handleClick}>Generate puzzle</StyledButton>
+                    <StyledButton onClick={this.handleClick}>Generate {diffs[this.state.difficulty || 0]} puzzle</StyledButton>
                     <Board
                         board={this.state.board}
                         clues={this.state.clues}

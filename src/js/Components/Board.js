@@ -1,5 +1,6 @@
+import React from "react";
 import {StyledBlock, StyledTable, StyledTbody, StyledTr} from "./Styled";
-import Cell from "./Cell";
+import { Cell } from "./Cell";
 
 export const Board = ({board, clues, handleChange}) => {
     if (board == null || board.len == 0) return (<div></div>);
