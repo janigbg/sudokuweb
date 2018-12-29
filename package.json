@@ -11,7 +11,8 @@
     "build-wasm": "cargo build --target wasm32-unknown-unknown",
     "build-bindgen": "wasm-bindgen target/wasm32-unknown-unknown/debug/sudokuweb.wasm --out-dir build",
     "build-old": "npm run build-wasm && npm run build-bindgen && npx webpack",
-    "build": "wasm-pack build -d build && npx webpack"
+    "build": "wasm-pack build -d build && npx webpack",
+    "build:prod": "wasm-pack build -d build && npx webpack --mode production"
   },
   "keywords": [],
   "author": "",
