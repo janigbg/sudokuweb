@@ -1,5 +1,4 @@
 extern crate cfg_if;
-#[macro_use]
 extern crate log;
 extern crate wasm_bindgen;
 extern crate sudokugen;
@@ -10,7 +9,7 @@ mod logger;
 use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
 
-use log::{SetLoggerError, LevelFilter};
+use log::LevelFilter;
 use std::convert::From;
 use std::sync::Once;
 use sudokugen::generator::{Difficulty, Generator};
