@@ -17,7 +17,7 @@ wasm-bindgen = "0.2"
 log = "0.4"
 env_logger = "0.6"
 
-sudokugen = { path = "../sudokugen" }
+sudokugen = { git = "https://github.com/janigbg/sudokugen.git" }
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
