@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Puzzle } from "./Components/Puzzle";
 
 const wasm = import("../../build/sudokuweb");
@@ -8,18 +7,14 @@ const wasm = import("../../build/sudokuweb");
 
 
 wasm.then(wasm => {
-    const App = ({match}) => {
+    const App = () => {
         return (
             <div>
-                <Puzzle wasm={wasm} diff={match.params.diff}/>
+                <Puzzle wasm={wasm}/>
             </div>
         );
     };
 
     ReactDOM.render(
-        <BrowserRouter>
-            <Switch>
-                <Route exact path="/:diff?" component={App} />
-            </Switch>
-        </BrowserRouter>, document.getElementById("root"));
+        <App />, document.getElementById("root"));
 });
