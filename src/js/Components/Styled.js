@@ -48,7 +48,7 @@ margin: 0;
 font-size: 24pt;
 
 &:disabled {
-    color: #808080;
+    color: #606060;
 }
 
 -moz-appearance:textfield;
